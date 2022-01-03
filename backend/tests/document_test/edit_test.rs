@@ -101,8 +101,8 @@ async fn delta_sync_with_server_push_delta() {
     test.run_scripts(vec![
         DocScript::ClientOpenDoc,
         DocScript::ServerSaveDocument(json, 3),
-        DocScript::AssertClient(r#"[{"insert":"123\n\n"}]"#),
-        DocScript::AssertServer(r#"[{"insert":"123\n\n"}]"#, 3),
+        DocScript::AssertClient(r#"[{"insert":"123\n"}]"#),
+        DocScript::AssertServer(r#"[{"insert":"123\n"}]"#, 3),
     ])
     .await;
 }
@@ -149,9 +149,8 @@ async fn delta_sync_while_local_rev_less_than_server_rev() {
         DocScript::ClientOpenDoc,
         DocScript::ServerSaveDocument(json, 3),
         DocScript::ClientInsertText(0, "abc"),
-        // DocScript::ClientConnectWS,
-        DocScript::AssertClient(r#"[{"insert":"abc\n123\n"}]"#),
-        DocScript::AssertServer(r#"[{"insert":"abc\n123\n"}]"#, 4),
+        DocScript::AssertClient(r#"[{"insert":"abc123\n"}]"#),
+        DocScript::AssertServer(r#"[{"insert":"abc123\n"}]"#, 4),
     ])
     .await;
 }
